@@ -17,35 +17,21 @@ def query():
     result = db2dict(r)
     return make_response(jsonify(result))
 
-@app.route('/title/<name>')
-def title(name):
-    r = db.fetchcolumn(tb, 'TITLE', name)
+@app.route('/title/<data>')
+@app.route('/property/<data>')
+@app.route('/teacher/<data>')
+@app.route('/weekday/<data>')
+def onecolume(data):
+    filters = request.args.to_dict()
+    column = request.path.split('/')[1]
+    r = db.fetch(tb, filters, column, data)
     result = db2dict(r)
     return make_response(jsonify(result))
-
-@app.route('/prop/<name>')
-def prop(name):
-    r = db.fetchcolumn(tb, 'PROPERTY', name)
-    result = db2dict(r)
-    return make_response(jsonify(result))
-
-@app.route('/teacher/<name>')
-def teacher(name):
-    r = db.fetchcolumn(tb, 'TEACHER', name)
-    result = db2dict(r)
-    return make_response(jsonify(result))
-
 
 @app.route('/teachers')
 def teachers():
     r = db.fetchcount(tb, 'TEACHER')
     result = count2dict(r)
-    return make_response(jsonify(result))
-
-@app.route('/weekday/<day>')
-def weekday(day):
-    r = db.fetchcolumn(tb, 'TIME', day)
-    result = db2dict(r)
     return make_response(jsonify(result))
 
 if __name__ == "__main__":
