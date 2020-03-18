@@ -1,7 +1,6 @@
 from lxml import etree
 from functools import reduce
 import requests
-import json
 import re
 import time
 
@@ -107,11 +106,6 @@ class CourseSpider:
         page_data = [re.search(r'DBGrid\$ctl18\$ctl\d+', data).group() for data in page_script]
         pagesinfo.extend(list(zip(page_count, page_data)))
         return pagesinfo
-
-    def write_json(self, result):
-        s = json.dumps(result, indent = 4, ensure_ascii=False)
-        with open('course' + '-' + self.year + '-' + self.term + '.json', 'w', encoding = 'utf-8') as f:
-            f.write(s)
     
     def run(self):
         result = []
@@ -133,9 +127,5 @@ class CourseSpider:
             else:
                 i += 1
         result = self.remove_duplication(result)
-        self.write_json(result)
         print("total cost", time.time() - start_time)
-
-if __name__ == "__main__":
-    spider = CourseSpider()
-    spider.run()
+        return result
