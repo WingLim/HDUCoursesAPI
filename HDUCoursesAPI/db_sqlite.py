@@ -29,7 +29,7 @@ class DBSqlite():
             CLASS_ID TEXT PRIMARY KEY NOT NULL,
             START_END TEXT,
             TIME TEXT,
-            LOCALTEXT,
+            LOCAL TEXT,
             ACADEMIC TEXT,
             OTHER TEXT
         );'''.format(tablename))
