@@ -78,15 +78,8 @@ class DBSqlite():
         conn.commit()
         self.disconnect(conn, cu)
 
-    # 获取一类数据
-    def fetchone(self, tablename, colume, data):
-        conn, cu = self.connect()
-        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, colume, data)
-        cu.execute(sql)
-        r = cu.fetchall()
-        return r
-    
-    def fetchmany(self, tablename, colume, data, limit=10):
+    # 获取某一列的多行数据
+    def fetchcolume(self, tablename, colume, data, limit=10):
         conn, cu = self.connect()
         data += '%'
         sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, colume, data)

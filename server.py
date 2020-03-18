@@ -11,7 +11,7 @@ def index():
 
 @app.route('/teacher/<name>')
 def teacher(name):
-    result = db.fetchmany(tb, 'TEACHER', name)
+    result = db.fetchcolume(tb, 'TEACHER', name)
     return make_response(jsonify(result))
 
 
@@ -21,7 +21,7 @@ def teachers():
 
 @app.route('/weekday/<data>')
 def weekday(data):
-    result = db.fetchmany(tb, 'TIME', data)
+    result = db.fetchcolume(tb, 'TIME', data)
     return make_response(jsonify(result))
 
 if __name__ == "__main__":
