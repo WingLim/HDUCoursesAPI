@@ -53,19 +53,19 @@ class CourseSpider:
         r = self.s.post(self.course_url, data=self.post_data, headers=self.headers)
         self.refresh_validation(r)
         self.post_data.pop('Button1')
-        return r.text
+        return r.content.decode('gb18030')
     
     # 发送 GET 请求
     def get_request(self):
         r = self.s.get(self.course_url, headers=self.headers)
         self.refresh_validation(r)
-        return r.text
+        return r.content.decode('gb18030')
 
     # 发送 POST 请求
     def post_request(self):
         r = self.s.post(self.course_url, data=self.post_data, headers=self.headers)
         self.refresh_validation(r)
-        return r.text
+        return r.content.decode('gb18030')
     
     # 获取完整的时间、地点、合班的信息
     def get_complete_info(self, course):
@@ -75,8 +75,8 @@ class CourseSpider:
             return course.attrib['title']
 
     # 解析一页中的课程信息
-    def parse_course(self, html, num):
-        selector = etree.HTML(html)
+    def parse_course(self, content, num):
+        selector = etree.HTML(content)
         course_list = selector.xpath("//*[@id='DBGrid']/tr")[1:-1]
         courses = []
         for one in course_list:
@@ -98,8 +98,8 @@ class CourseSpider:
         return courses
     
     # 解析页码信息
-    def parse_pageinfo(self, html):
-        selector = etree.HTML(html)
+    def parse_pageinfo(self, content):
+        selector = etree.HTML(content)
         pagesinfo = []
         page_count = selector.xpath("//*[@id='DBGrid']/tr[16]/td/a/text()")
         page_script = selector.xpath("//*[@id='DBGrid']/tr[16]/td/a/@href")
@@ -129,3 +129,7 @@ class CourseSpider:
         result = self.remove_duplication(result)
         print("total cost", time.time() - start_time)
         return result
+
+if __name__ == "__main__":
+    spider = CourseSpider()
+    spider.run()
