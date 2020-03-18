@@ -35,4 +35,4 @@ def teachers():
     return make_response(jsonify(result))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=3000)
