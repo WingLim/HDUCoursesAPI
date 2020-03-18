@@ -81,10 +81,17 @@ class DBSqlite():
         return 'Insert data succeed'
 
     # 获取一类数据
-    def fetchone(self, tablename, rule, data):
+    def fetchone(self, tablename, colume, data):
         conn, cu = self.connect()
-        rule = rule.upper()
-        sql = "SELECT * FROM '{}' WHERE {} = '{}';".format(tablename, rule, data)
+        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, colume, data)
         cu.execute(sql)
         r = cu.fetchall()
+        return r
+    
+    def fetchmany(self, tablename, colume, data, limit=10):
+        conn, cu = self.connect()
+        data += '%'
+        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, colume, data)
+        cu.execute(sql)
+        r = cu.fetchmany(limit)
         return r
