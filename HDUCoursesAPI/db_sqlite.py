@@ -1,3 +1,4 @@
+from HDUCoursesAPI.utils import dict2sql
 import sqlite3
 
 class DBSqlite():
@@ -86,9 +87,19 @@ class DBSqlite():
         r = cu.fetchmany(limit)
         return r
     
+    # 获取某一列不重复总数
     def fetchcount(self, tablename, column):
         conn, cu = self.connect()
         sql = "SELECT DISTINCT {} FROM '{}';".format(column, tablename)
         cu.execute(sql)
         r = cu.fetchall()
+        return r
+    
+    # 获取数据
+    def fetch(self, tablename, filters, limit=10):
+        rule = dict2sql(filters)
+        conn, cu = self.connect()
+        sql = "SELECT * FROM '{}' {};".format(tablename, rule)
+        cu.execute(sql)
+        r = cu.fetchmany(limit)
         return r

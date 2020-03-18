@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from HDUCoursesAPI.db_sqlite import DBSqlite
 from HDUCoursesAPI.utils import db2dict, count2dict
 
@@ -9,6 +9,13 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return "Welcome to use HDU Courses API"
+
+@app.route('/query')
+def query():
+    filters = request.args.to_dict()
+    r = db.fetch(tb, filters)
+    result = db2dict(r)
+    return make_response(jsonify(result))
 
 @app.route('/title/<name>')
 def title(name):

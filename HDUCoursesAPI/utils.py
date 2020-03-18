@@ -14,3 +14,10 @@ def count2dict(data):
         tmp.append(one[0])
     result["data"] = tmp
     return result
+
+def dict2sql(data):
+    sql = "WHERE"
+    for k, v in data.items():
+        v = "'%{}%'".format(v)
+        sql += ' ' + k + ' LIKE ' + v + ' AND'
+    return sql[0:-4]
