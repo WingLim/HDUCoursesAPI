@@ -16,6 +16,12 @@ def title(name):
     result = db2dict(r)
     return make_response(jsonify(result))
 
+@app.route('/prop/<name>')
+def prop(name):
+    r = db.fetchcolumn(tb, 'PROPERTY', name)
+    result = db2dict(r)
+    return make_response(jsonify(result))
+
 @app.route('/teacher/<name>')
 def teacher(name):
     r = db.fetchcolumn(tb, 'TEACHER', name)
