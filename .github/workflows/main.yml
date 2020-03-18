@@ -6,13 +6,16 @@ on:
 
 jobs:
   build:
-    name: Deploy docs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout master
-        uses: actions/checkout@v1
-
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: pip install mkdocs mkdocs-material mkdocs-minify-plugin
+    - name: Deploy documents
+      run: |
+        echo -e "machine github.com\n  login ${{ secrets.PERSONAL_TOKEN }}" > ~/.netrc
+        mkdocs gh-deploy --force --clean
