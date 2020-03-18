@@ -6,21 +6,21 @@ db = DBSqlite()
 tb = 'course2019-20202'
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/courses')
 def index():
     return "Welcome to use HDU Courses API"
 
-@app.route('/query')
+@app.route('/courses/query')
 def query():
     filters = request.args.to_dict()
     r = db.fetch(tb, filters)
     result = db2dict(r)
     return make_response(jsonify(result))
 
-@app.route('/title/<data>')
-@app.route('/property/<data>')
-@app.route('/teacher/<data>')
-@app.route('/weekday/<data>')
+@app.route('/courses/title/<data>')
+@app.route('/courses/property/<data>')
+@app.route('/courses/teacher/<data>')
+@app.route('/courses/weekday/<data>')
 def onecolume(data):
     filters = request.args.to_dict()
     column = request.path.split('/')[1]
@@ -28,7 +28,7 @@ def onecolume(data):
     result = db2dict(r)
     return make_response(jsonify(result))
 
-@app.route('/teachers')
+@app.route('/courses/teachers')
 def teachers():
     r = db.fetchcount(tb, 'TEACHER')
     result = count2dict(r)
