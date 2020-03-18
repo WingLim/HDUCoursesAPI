@@ -13,7 +13,8 @@ def index():
 @app.route('/courses/query')
 def query():
     filters = request.args.to_dict()
-    r = db.fetch(tb, filters)
+    limit = request.args.get('limit')
+    r = db.fetch(tb, filters, limit=limit)
     result = db2dict(r)
     return make_response(jsonify(result))
 
@@ -24,7 +25,8 @@ def query():
 def onecolume(data):
     filters = request.args.to_dict()
     column = request.path.split('/')[1]
-    r = db.fetch(tb, filters, column, data)
+    limit = request.args.get('limit')
+    r = db.fetch(tb, filters, column, data, limit)
     result = db2dict(r)
     return make_response(jsonify(result))
 

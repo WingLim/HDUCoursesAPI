@@ -17,6 +17,8 @@ def count2dict(data):
 
 def dict2sql(data):
     sql = "WHERE"
+    if 'limit' in data.keys():
+        data.pop('limit')
     for k, v in data.items():
         v = "'%{}%'".format(v)
         sql += ' ' + k + ' LIKE ' + v + ' AND'
