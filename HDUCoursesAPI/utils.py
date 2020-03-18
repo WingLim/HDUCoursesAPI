@@ -19,7 +19,12 @@ def dict2sql(data):
     sql = "WHERE"
     if 'limit' in data.keys():
         data.pop('limit')
-    for k, v in data.items():
-        v = "'%{}%'".format(v)
-        sql += ' ' + k + ' LIKE ' + v + ' AND'
-    return sql[0:-4]
+    if None not in data.keys():
+        print(data)
+        for k, v in data.items():
+            v = "'%{}%'".format(v)
+            print(k, v)
+            sql += ' ' + k + ' LIKE ' + v + ' AND'
+        return sql[0:-4]
+    else:
+        return ''

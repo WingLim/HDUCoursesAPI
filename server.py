@@ -13,7 +13,8 @@ def index():
 @app.route('/courses/query')
 def query():
     filters = request.args.to_dict()
-    limit = request.args.get('limit')
+    tmp = request.args.get('limit')
+    limit = (tmp if tmp != None else 10)
     r = db.fetch(tb, filters, limit=limit)
     result = db2dict(r)
     return make_response(jsonify(result))
@@ -24,8 +25,9 @@ def query():
 @app.route('/courses/weekday/<data>')
 def onecolume(data):
     filters = request.args.to_dict()
-    column = request.path.split('/')[1]
-    limit = request.args.get('limit')
+    column = request.path.split('/')[2]
+    tmp = request.args.get('limit')
+    limit = (tmp if tmp != None else 10)
     r = db.fetch(tb, filters, column, data, limit)
     result = db2dict(r)
     return make_response(jsonify(result))
