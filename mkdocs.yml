@@ -1,0 +1,18 @@
+site_name: 杭电课程 API 文档
+
+theme:
+    name: 'material'
+    language: 'zh'
+
+repo_name: WingLim/HDUCoursesAPI
+repo_url: https://github.com/WingLim/HDUCoursesAPI
+
+nav:
+    - 课程详情: index.md
+    - 课程统计: count.md
+
+markdown_extensions:
+    - codehilite
+    - admonition
+    - toc:
+        permalink: true
