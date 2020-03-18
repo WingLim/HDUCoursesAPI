@@ -22,7 +22,7 @@ def query():
 @app.route('/courses/title/<data>')
 @app.route('/courses/property/<data>')
 @app.route('/courses/teacher/<data>')
-@app.route('/courses/weekday/<data>')
+@app.route('/courses/time/<data>')
 def onecolume(data):
     filters = request.args.to_dict()
     column = request.path.split('/')[2]
