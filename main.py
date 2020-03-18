@@ -2,19 +2,35 @@ from HDUCoursesAPI.course_spider import CourseSpider
 from HDUCoursesAPI.db_json import DBJson
 from HDUCoursesAPI.db_sqlite import DBSqlite
 
+class HDUCourses():
+    def __init__(self):
+      self.result = []
+      self.filename = ''
+      self.year = '2019-2020'
+      self.term = '2'
 
+    # 爬取数据
+    def spidercourse(self):
+        spider = CourseSpider()
+        self.result = spider.run(self.year, self.term)
+        self.filename = 'course' + self.year + self.term
+    
+    # 将数据写到 json
+    def write2json(self):
+        json = DBJson()
+        json.write(self.filename, self.result)
+
+    # 将数据写入到 sqlite 数据库
+    def write2sqlite(self):
+        db = DBSqlite()
+        db.create_table(self.filename)
+        db.insertmany(self.filename, self.result)
+
+    def run(self):
+        self.spidercourse()
+        self.write2sqlite()
 
 if __name__ == "__main__":
-    # 爬取数据
-    spider = CourseSpider()
-    #result = spider.run()
-    filename = 'course' + spider.year + spider.term
-    # 将数据写到 json
-    json = DBJson()
-    #json.write(filename, result)
-    # 从 json 中读取数据
-    data = json.read(filename)
-    # 将数据写入到 sqlite 数据库
-    db = DBSqlite()
-    db.create_table(filename)
-    db.insertmany(filename, data)
+    hducourse = HDUCourses()
+    hducourse.run()
+    
