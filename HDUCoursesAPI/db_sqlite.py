@@ -55,7 +55,6 @@ class DBSqlite():
         cu.executemany(sql, data_t)
         conn.commit()
         self.disconnect(conn, cu)
-        return 'Insert multi data succeed'
 
     
     # 插入一条数据
@@ -78,7 +77,6 @@ class DBSqlite():
         cu.execute(sql)
         conn.commit()
         self.disconnect(conn, cu)
-        return 'Insert data succeed'
 
     # 获取一类数据
     def fetchone(self, tablename, colume, data):
