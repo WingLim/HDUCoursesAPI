@@ -79,10 +79,17 @@ class DBSqlite():
         self.disconnect(conn, cu)
 
     # 获取某一列的多行数据
-    def fetchcolume(self, tablename, colume, data, limit=10):
+    def fetchcolumn(self, tablename, column, data, limit=10):
         conn, cu = self.connect()
         data += '%'
-        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, colume, data)
+        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, column, data)
         cu.execute(sql)
         r = cu.fetchmany(limit)
+        return r
+    
+    def fetchcount(self, tablename, column):
+        conn, cu = self.connect()
+        sql = "SELECT DISTINCT {} FROM '{}';".format(column, tablename)
+        cu.execute(sql)
+        r = cu.fetchall()
         return r
