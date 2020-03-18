@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, request, redirect
 from HDUCoursesAPI.db_sqlite import DBSqlite
 from HDUCoursesAPI.utils import db2dict, count2dict
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/courses')
 def index():
-    return "Welcome to use HDU Courses API"
+    return redirect('https://winglim.github.io/HDUCoursesAPI/')
 
 @app.route('/courses/query')
 def query():
