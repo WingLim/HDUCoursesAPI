@@ -10,6 +10,12 @@ app = Flask(__name__)
 def index():
     return "Welcome to use HDU Courses API"
 
+@app.route('/title/<name>')
+def title(name):
+    r = db.fetchcolumn(tb, 'TITLE', name)
+    result = db2dict(r)
+    return make_response(jsonify(result))
+
 @app.route('/teacher/<name>')
 def teacher(name):
     r = db.fetchcolumn(tb, 'TEACHER', name)
@@ -23,9 +29,9 @@ def teachers():
     result = count2dict(r)
     return make_response(jsonify(result))
 
-@app.route('/weekday/<data>')
-def weekday(data):
-    r = db.fetchcolumn(tb, 'TIME', data)
+@app.route('/weekday/<day>')
+def weekday(day):
+    r = db.fetchcolumn(tb, 'TIME', day)
     result = db2dict(r)
     return make_response(jsonify(result))
 
