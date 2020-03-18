@@ -30,4 +30,4 @@ python server.py
 
 
 ### API 文档
-https://winglim.github.io/
+https://winglim.github.io/HDUCoursesAPI
