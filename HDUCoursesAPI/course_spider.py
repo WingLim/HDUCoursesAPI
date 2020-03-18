@@ -13,8 +13,6 @@ class CourseSpider:
             'Connection': 'keep-alive',
             'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16'
         }
-        self.year = '2019-2020'
-        self.term = '2'
         self.post_data = {
             '__EVENTTARGET': '',
             '__EVENTARGUMENT': '',
@@ -47,9 +45,9 @@ class CourseSpider:
         return result
 
     # 选择要爬取的年份和学期
-    def select_year_term(self):
-        self.post_data['ddlXN'] = self.year
-        self.post_data['ddlXQ'] = self.term
+    def select_year_term(self, year, term):
+        self.post_data['ddlXN'] = year
+        self.post_data['ddlXQ'] = term
         r = self.s.post(self.course_url, data=self.post_data, headers=self.headers)
         self.refresh_validation(r)
         self.post_data.pop('Button1')
@@ -132,4 +130,4 @@ class CourseSpider:
 
 if __name__ == "__main__":
     spider = CourseSpider()
-    spider.run()
+    spider.run('2019-2020', '2')
