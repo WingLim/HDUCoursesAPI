@@ -4,7 +4,7 @@ import sqlite3
 class DBSqlite():
 
     def __init__(self):
-        self.dbname = 'courses.db'
+        self.dbname = 'data/courses.db'
     
     # 连接到数据库
     def connect(self):
