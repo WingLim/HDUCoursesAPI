@@ -81,8 +81,7 @@ class DBSqlite():
     # 获取某一列的多行数据
     def fetchcolumn(self, tablename, column, data, limit=10):
         conn, cu = self.connect()
-        data += '%'
-        sql = "SELECT * FROM '{}' WHERE {} like '{}';".format(tablename, column, data)
+        sql = "SELECT * FROM '{}' WHERE {} like '%{}%';".format(tablename, column, data)
         cu.execute(sql)
         r = cu.fetchmany(limit)
         return r
