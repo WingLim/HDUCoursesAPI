@@ -35,6 +35,21 @@ python server.py
 
 https://api.limxw.com/teachers
 
+返回样例：
+
+```json
+{
+    count: 1623,
+    data: [
+        "陈昌/刘敬彪",
+        "骆泳铭",
+        "石义芳",
+        ...
+}
+```
+
+
+
 
 
 **下列 API 均可通过可选参数进行筛选**
@@ -43,7 +58,7 @@ https://api.limxw.com/teachers
 
 https://api.limxw.com/teacher/{$老师名}
 
-样例：
+请求样例：
 
 https://api.limxw.com/teacher/杨子飞
 
@@ -53,7 +68,7 @@ https://api.limxw.com/teacher/杨子飞
 
 https://api.limxw.com/title/{$课程名}
 
-样例：
+请求样例：
 
 https://api.limxw.com/title/高等数学
 
@@ -63,7 +78,7 @@ https://api.limxw.com/title/高等数学
 
 https://api.limxw.com/time/{$时间}
 
-样例：
+请求样例：
 
 https://api.limxw.com/title/周三
 
@@ -73,15 +88,19 @@ https://api.limxw.com/title/周三
 
 https://api.limxw.com/property/{$属性}
 
-样例：
+请求样例：
 
 https://api.limxw.com/title/通识必修
 
 
 
+#### 根据筛选条件查找
+
 https://api.limxw.com/courses/query?academic=机械工程&time=周三&local=7教&teacher=彭章明&credit=3
 
-返回：
+
+
+返回样例：
 ```json
 [
     {
@@ -101,7 +120,9 @@ https://api.limxw.com/courses/query?academic=机械工程&time=周三&local=7教
 ]
 ```
 
-可选参数如下：
+
+
+可选参数：
 
 | 参数名 | 类型 | 默认值 | 说明   |
 | -------- | ------ |----|-------- |
