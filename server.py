@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, make_response, request, redirect
 from HDUCoursesAPI.db_sqlite import DBSqlite
+from HDUCoursesAPI.db_json import DBJson
 from HDUCoursesAPI.utils import db2dict, count2dict
 
 db = DBSqlite()
@@ -17,7 +18,8 @@ def query():
     tmp = request.args.get('limit')
     limit = (tmp if tmp != None else 10)
     r = db.fetch(tb, filters, limit=limit)
-    result = db2dict(r)
+    d = db2dict(r)
+    result = DBJson().cook_course_json(d)
     return make_response(jsonify(result))
 
 @app.route('/courses/title/<data>')
