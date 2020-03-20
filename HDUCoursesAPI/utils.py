@@ -19,8 +19,8 @@ def dict2sql(data):
     sql = "WHERE"
     if 'limit' in data.keys():
         data.pop('limit')
-    if None not in data.keys():
-        print(data)
+    data.pop(None)
+    if len(data.keys()) >= 1:
         for k, v in data.items():
             v = "'%{}%'".format(v)
             print(k, v)

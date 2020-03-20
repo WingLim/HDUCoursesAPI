@@ -99,6 +99,7 @@ class DBSqlite():
     def fetch(self, tablename, filters, column=None, data=None,limit=10):
         filters[column] = data
         rule = dict2sql(filters)
+        print(rule)
         conn, cu = self.connect()
         sql = "SELECT * FROM '{}' {};".format(tablename, rule)
         cu.execute(sql)

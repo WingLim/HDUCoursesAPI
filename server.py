@@ -13,6 +13,7 @@ def index():
 @app.route('/courses/query')
 def query():
     filters = request.args.to_dict()
+    print(filters)
     tmp = request.args.get('limit')
     limit = (tmp if tmp != None else 10)
     r = db.fetch(tb, filters, limit=limit)
