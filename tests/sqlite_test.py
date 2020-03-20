@@ -19,7 +19,7 @@ class TestSqlite(unittest.TestCase):
         "class_id": "(2019-2020-2)-A0106720-41439-1",
         "start_end": "01-16",
         "time": "周四第3,4,5节{第1-16周}",
-        "local": "第6教研楼中309",
+        "location": "第6教研楼中309",
         "academic": "机械工程学院",
         "other": "18010114"}
         self.assertEqual(db.insertone('db_test', testdata), 'Insert data succeed')

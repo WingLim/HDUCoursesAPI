@@ -30,7 +30,7 @@ class DBSqlite():
             CLASS_ID TEXT PRIMARY KEY NOT NULL,
             START_END TEXT,
             TIME TEXT,
-            LOCAL TEXT,
+            LOCATION TEXT,
             ACADEMIC TEXT,
             OTHER TEXT
         );'''.format(tablename))
@@ -71,7 +71,7 @@ class DBSqlite():
             '{class_id}',
             '{start_end}',
             '{time}',
-            '{local}',
+            '{location}',
             '{academic}',
             '{other}'
         );'''.format(tablename, **data)

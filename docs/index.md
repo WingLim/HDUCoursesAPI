@@ -47,7 +47,7 @@ GET https://api.limxw.com/title/通识必修
 
 ## 根据筛选条件查找
 ```url
-GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&local=7教&teacher=彭章明&credit=3
+GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&location=7教&teacher=彭章明&credit=3
 ```
 
 
@@ -64,7 +64,7 @@ GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&local=
         class_id: "(2019-2020-1)-B0103630-41263-1",
         start_end: "01-15",
         time: "周一第3,4节{第1-15周};周三第1,2节{第1-15周|单周}",
-        local: "第7教研楼北322;第7教研楼北322",
+        location: "第7教研楼北322;第7教研楼北322",
         academic: "机械工程学院",
         other: "17010111,17010112,17010113,17010114"
     }
@@ -85,6 +85,6 @@ GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&local=
 | teacher  | String |    |老师名字 |
 | class_id | String |    |课程代号 |
 | time     | String |    |上课时间 |
-| local    | String |    |上课地点 |
+| location | String |    |上课地点 |
 | academic | String |    |开课学院 |
 | other    | String |    |合班信息 |

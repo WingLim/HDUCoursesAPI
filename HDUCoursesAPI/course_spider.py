@@ -88,7 +88,7 @@ class CourseSpider:
             course['class_id'] = one.xpath("./td[7]/text()")[0]
             course['start_end'] = one.xpath("./td[8]/text()")[0]
             course['time'] = self.get_complete_info(one.xpath("./td[9]")[0])
-            course['local'] = self.get_complete_info(one.xpath("./td[10]")[0])
+            course['location'] = self.get_complete_info(one.xpath("./td[10]")[0])
             course['academic'] = one.xpath("./td[11]/text()")[0]
             course['other'] = self.get_complete_info(one.xpath("./td[12]")[0])
             courses.append(course)
