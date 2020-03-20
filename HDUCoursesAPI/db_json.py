@@ -67,7 +67,7 @@ class DBJson():
         return data
     
     def parse_time(self, timeinfo):
-        regrx = re.compile(r'第(.{0,5})节')
+        regrx = re.compile(r'第(.{0,8})节')
         result = regrx.findall(timeinfo)
         course_period_list = []
         for one in result:
@@ -89,9 +89,10 @@ class DBJson():
         for one in export_courses:
             info = {}
             t = one['time']
-            info['week'] = self.parse_week(t)
-            info['weekday'] = t[0:2]
-            info['start'], info['end'] = (i.strftime('%H:%M') for i in self.parse_time(t)) 
-            one['timeinfo'] = info
+            if len(t) > 5:
+                info['week'] = self.parse_week(t)
+                info['weekday'] = t[0:2]
+                info['start'], info['end'] = (i.strftime('%H:%M') for i in self.parse_time(t)) 
+                one['timeinfo'] = info
             result.append(one)
         return result
