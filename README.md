@@ -17,8 +17,6 @@ self.year = '2019-2020'
 self.term = '2'
 ```
 
-
-
 ### API 服务
 
 默认端口号为 `3000`
@@ -27,7 +25,9 @@ self.term = '2'
 python server.py
 ```
 
-
-
 ### API 文档
 https://winglim.github.io/HDUCoursesAPI
+
+## TODO
+- [] 多天课程解析
+- [] 去除重复上课地点
