@@ -6,8 +6,8 @@ class HDUCourses():
     def __init__(self):
       self.result = []
       self.filename = ''
-      self.year = '2019-2020'
-      self.term = '2'
+      self.year = '2020-2021'
+      self.term = '1'
 
     # 爬取数据
     def spidercourse(self):
@@ -28,6 +28,7 @@ class HDUCourses():
 
     def run(self):
         self.spidercourse()
+        self.write2json()
         self.write2sqlite()
 
 if __name__ == "__main__":
