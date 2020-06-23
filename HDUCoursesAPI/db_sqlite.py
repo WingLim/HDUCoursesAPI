@@ -20,7 +20,7 @@ class DBSqlite():
     # 创建表
     def create_table(self, tablename):
         conn, cu = self.connect()
-        cu.execute('''CREATE TABLE '{}'
+        cu.execute('''CREATE TABLE IF NOT EXISTS '{}'
         (   STATUS TEXT,
             TITLE TEXT,
             CREDIT INT,
