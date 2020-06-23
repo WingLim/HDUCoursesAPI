@@ -105,11 +105,11 @@ class CourseSpider:
         pagesinfo.extend(list(zip(page_count, page_data)))
         return pagesinfo
     
-    def run(self):
+    def run(self, year, term):
         result = []
         start_time = time.time()
         self.get_request()
-        first_request = self.select_year_term()
+        first_request = self.select_year_term(year, term)
         first_page = self.parse_course(first_request, 1)
         result.extend(first_page)
         pagesinfo = self.parse_pageinfo(first_request)
