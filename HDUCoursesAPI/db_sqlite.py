@@ -52,7 +52,7 @@ class DBSqlite():
             tmp = tuple(one.values())
             data_t.append(tmp)
         conn, cu = self.connect()
-        sql = "INSERT INTO '{}' VALUES (?,?,?,?,?,?,?,?,?,?,?,?)".format(tablename)
+        sql = "INSERT OR IGNORE INTO '{}' VALUES (?,?,?,?,?,?,?,?,?,?,?,?)".format(tablename)
         cu.executemany(sql, data_t)
         conn.commit()
         self.disconnect(conn, cu)
