@@ -1,6 +1,7 @@
 from lxml import etree
 from functools import reduce
 import requests
+import threading
 import re
 import time
 
@@ -29,6 +30,10 @@ class CourseSpider:
             'Button1': ' 查 询 '
         }
         self.result_list = []
+        self.start_time = 0
+        self.end_time = 0
+        self.page_count = 0
+        self.status = 'ready'
 
     # 更新 POST 请求中 __VIEWSTATE 和 __EVENTVALIDATION 的值
     def refresh_validation(self, response):
@@ -92,7 +97,8 @@ class CourseSpider:
             course['academic'] = one.xpath("./td[11]/text()")[0]
             course['other'] = self.get_complete_info(one.xpath("./td[12]")[0])
             courses.append(course)
-        print("parsed page", num)
+        self.page_count = num
+        # print("parsed page", num)
         return courses
     
     # 解析页码信息
@@ -107,7 +113,8 @@ class CourseSpider:
     
     def run(self, year, term):
         result = []
-        start_time = time.time()
+        self.start_time = time.time()
+        self.status = 'running'
         self.get_request()
         first_request = self.select_year_term(year, term)
         first_page = self.parse_course(first_request, 1)
@@ -125,8 +132,23 @@ class CourseSpider:
             else:
                 i += 1
         result = self.remove_duplication(result)
-        print("total cost", time.time() - start_time)
+        self.status = 'finished'
+        self.end_time = time.time()
+        print("total cost", self.end_time - self.start_time)
         return result
+
+class SpiderThread(threading.Thread):
+    def __init__(self, year, term):
+        self.result = []
+        self.filename = ''
+        self.year = year
+        self.term = term
+        self.spider = CourseSpider()
+        super().__init__()
+
+    def run(self):
+        self.result = self.spider.run(self.year, self.term)
+        self.filename = 'course' + self.year + self.term
 
 if __name__ == "__main__":
     spider = CourseSpider()

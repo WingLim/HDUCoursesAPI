@@ -3,3 +3,4 @@ course*.json
 .python-version
 .vscode
 .~*.md
+.idea
