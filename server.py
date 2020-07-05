@@ -7,7 +7,7 @@ import random
 import time
 
 db = DBSqlite()
-tb = 'course2019-20202'
+tb = 'course2020-20211'
 app = Flask(__name__)
 
 @app.route('/courses')
