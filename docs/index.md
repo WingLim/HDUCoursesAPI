@@ -6,42 +6,42 @@
 ## 根据老师名查找
 
 ```url
-GET https://api.limxw.com/teacher/{$老师名}
+GET https://api.limxw.com/courses/teacher/{$老师名}
 ```
 
 ### 请求样例
 ```url
-GET https://api.limxw.com/teacher/杨子飞
+GET https://api.limxw.com/courses/teacher/杨子飞
 ```
 
 
 ## 根据课程名查找
 ```url
-GET https://api.limxw.com/title/{$课程名}
+GET https://api.limxw.com/courses/title/{$课程名}
 ```
 ### 请求样例
 ```url
-GET https://api.limxw.com/title/高等数学
+GET https://api.limxw.com/courses/title/高等数学
 ```
 
 
 ## 根据时间查找
 ```url
-GET https://api.limxw.com/time/{$时间}
+GET https://api.limxw.com/courses/time/{$时间}
 ```
 ### 请求样例
 ```url
-https://api.limxw.com/title/周三
+https://api.limxw.com/courses/time/周三
 ```
 
 
 ## 根据课程属性查找
 ```url
-GET https://api.limxw.com/property/{$属性}
+GET https://api.limxw.com/courses/property/{$属性}
 ```
 ### 请求样例
 ```url
-GET https://api.limxw.com/title/通识必修
+GET https://api.limxw.com/courses/property/通识必修
 ```
 
 
