@@ -4,3 +4,4 @@ course*.json
 .vscode
 .~*.md
 .idea
+venv
