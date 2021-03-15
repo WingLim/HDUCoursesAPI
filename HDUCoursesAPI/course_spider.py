@@ -98,7 +98,7 @@ class CourseSpider:
             course['other'] = self.get_complete_info(one.xpath("./td[12]")[0])
             courses.append(course)
         self.page_count = num
-        # print("parsed page", num)
+        print("parsed page", num)
         return courses
     
     # 解析页码信息
@@ -137,6 +137,7 @@ class CourseSpider:
         print("total cost", self.end_time - self.start_time)
         return result
 
+
 class SpiderThread(threading.Thread):
     def __init__(self, year, term):
         self.result = []
@@ -150,6 +151,7 @@ class SpiderThread(threading.Thread):
         self.result = self.spider.run(self.year, self.term)
         self.filename = 'course' + self.year + self.term
 
+
 if __name__ == "__main__":
     spider = CourseSpider()
-    spider.run('2019-2020', '2')
+    spider.run('2020-2021', '2')
