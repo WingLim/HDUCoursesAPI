@@ -1,4 +1,4 @@
-from HDUCoursesAPI.timetable import dict_week_start, dict_week_end
+from HDUCoursesAPI.timetable import dict_course_start, dict_course_end
 import json
 import re
 
@@ -87,8 +87,8 @@ def parse_time(time_info: str, location_info: str) -> list[dict]:
             course_period_end = int(course_period_list[course_period_num - 1])
             one = {
                 'weekday': item[0:2],
-                'start': dict_week_start[course_period_start].strftime('%H:%M'),
-                'end': dict_week_end[course_period_end].strftime('%H:%M'),
+                'start': dict_course_start[course_period_start].strftime('%H:%M'),
+                'end': dict_course_end[course_period_end].strftime('%H:%M'),
                 'location': locations[i]
             }
         else:

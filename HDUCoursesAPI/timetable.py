@@ -1,7 +1,8 @@
 from datetime import time
 
 
-dict_week_start = {
+# Course start time
+dict_course_start = {
     1: time(8, 5),
     2: time(8, 55),
     3: time(10, 0),
@@ -16,7 +17,8 @@ dict_week_start = {
     12: time(20, 10)
 }
 
-dict_week_end = {
+# Course end time
+dict_course_end = {
     1: time(8, 50),
     2: time(9, 40),
     3: time(10, 45),
