@@ -3,22 +3,13 @@ import json
 import re
 
 
-def make_json(data):
+def make_json(data: list) -> list:
     need_deserialization = ['time_info', 'week_info', 'location', 'other']
     for one in data:
         for i in need_deserialization:
             one[i] = one[i].replace("'", "\"")
             one[i] = json.loads(one[i])
     return data
-
-def db2dict(data):
-    result = []
-    key = ['status', 'title', 'credit', 'method', 'property', 'teacher',
-           'class_id', 'time_info', 'week_info', 'location', 'academic', 'other']
-    for one in data:
-        tmp = dict(zip(key, one))
-        result.append(tmp)
-    return result
 
 
 def count2dict(data):
@@ -97,10 +88,10 @@ def parse_time(time_info: str, location_info: str) -> list[dict]:
     return result
 
 
-def parse_location(location_info: str):
+def parse_location(location_info: str) -> list:
     locations = location_info.split(";")
     return list(set(locations))
 
 
-def parse_other(other_info: str):
+def parse_other(other_info: str) -> list:
     return other_info.split(",")

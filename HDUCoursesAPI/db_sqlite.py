@@ -2,6 +2,12 @@ from HDUCoursesAPI.utils import dict2sql
 import sqlite3
 
 
+# 关闭连接
+def disconnect(conn: sqlite3.Connection, cu: sqlite3.Cursor):
+    cu.close()
+    conn.close()
+
+
 class DBSqlite:
 
     def __init__(self):
@@ -12,14 +18,9 @@ class DBSqlite:
         conn = sqlite3.connect(self.dbname)
         cu = conn.cursor()
         return conn, cu
-    
-    # 关闭连接
-    def disconnect(self, conn, cu):
-        cu.close()
-        conn.close()
-    
+
     # 创建表
-    def create_table(self, table_name):
+    def create_table(self, table_name: str) -> None:
         conn, cu = self.connect()
         cu.execute('''CREATE TABLE IF NOT EXISTS '{}'
         (   STATUS TEXT,
@@ -36,18 +37,18 @@ class DBSqlite:
             OTHER TEXT
         );'''.format(table_name))
         conn.commit()
-        self.disconnect(conn, cu)
+        disconnect(conn, cu)
     
     # 删除表
-    def drop_table(self, table_name):
+    def drop_table(self, table_name: str) -> None:
         conn, cu = self.connect()
         sql = 'DROP TABLE IF EXISTS ' + table_name
         cu.execute(sql)
         conn.commit()
-        self.disconnect(conn, cu)
+        disconnect(conn, cu)
 
     # 插入多条数据
-    def insert_many(self, table_name, data):
+    def insert_many(self, table_name: str, data: list):
         data_t = []
         for one in data:
             tmp = tuple(one.values())
@@ -56,10 +57,10 @@ class DBSqlite:
         sql = "INSERT OR IGNORE INTO '{}' VALUES (?,?,?,?,?,?,?,?,?,?,?,?)".format(table_name)
         cu.executemany(sql, data_t)
         conn.commit()
-        self.disconnect(conn, cu)
+        disconnect(conn, cu)
 
     # 插入一条数据
-    def insert_one(self, table_name, data):
+    def insert_one(self, table_name: str, data: dict):
         conn, cu = self.connect()
         sql = '''INSERT INTO '{}' VALUES (
             '{status}',
@@ -77,10 +78,10 @@ class DBSqlite:
         );'''.format(table_name, **data)
         cu.execute(sql)
         conn.commit()
-        self.disconnect(conn, cu)
+        disconnect(conn, cu)
 
     # 获取某一列的多行数据
-    def fetch_column(self, table_name, column, data, limit=10):
+    def fetch_column(self, table_name: str, column: str, data: str, limit: int = 10) -> list:
         conn, cu = self.connect()
         sql = "SELECT * FROM '{}' WHERE {} like '%{}%';".format(table_name, column, data)
         cu.execute(sql)
@@ -88,7 +89,7 @@ class DBSqlite:
         return r
     
     # 获取某一列不重复总数
-    def fetch_count(self, table_name, column):
+    def fetch_count(self, table_name: str, column: str) -> list:
         conn, cu = self.connect()
         sql = "SELECT DISTINCT {} FROM '{}';".format(column, table_name)
         cu.execute(sql)
@@ -96,7 +97,7 @@ class DBSqlite:
         return r
     
     # 获取数据
-    def fetch(self, table_name, filters, column=None, data=None, limit=10):
+    def fetch(self, table_name: str, filters: dict, column: str = None, data: str = None, limit: int = 10) -> list:
         filters[column] = data
         rule = dict2sql(filters)
         print(rule)

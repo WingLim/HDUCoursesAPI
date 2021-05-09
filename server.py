@@ -1,10 +1,21 @@
 from typing import Optional
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from HDUCoursesAPI.db_sqlite import DBSqlite
 from HDUCoursesAPI.utils import make_json
 
 app = FastAPI()
+
+origins = [
+    "http://127.0.0.1:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins
+)
+
 db = DBSqlite()
 tb = 'course2020-20212'
 
