@@ -3,18 +3,24 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'docs/**.md'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: 3.9
+
     - name: Install dependencies
       run: pip install mkdocs mkdocs-material mkdocs-minify-plugin
+
     - name: Deploy documents
       run: |
         echo -e "machine github.com\n  login ${{ secrets.PERSONAL_TOKEN }}" > ~/.netrc
