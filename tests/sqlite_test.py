@@ -1,32 +1,35 @@
 import unittest
-from content import DBSqlite
+import os
+from HDUCoursesAPI.db_sqlite import DBSqlite
+
 
 class TestSqlite(unittest.TestCase):
+    db = DBSqlite("courses.db")
 
     def setUp(self):
-        db = DBSqlite()
-        db.create_table('db_test')
+        self.db.create_table('db_test')
 
-    def test_insertone(self):
-        db = DBSqlite()
-        testdata = {
-        "status": "已开",
-        "title": "热工基础(甲)",
-        "credit": "3.0",
-        "method": "学校组织",
-        "property": "学科必修",
-        "teacher": "陈昌/刘敬彪",
-        "class_id": "(2019-2020-2)-A0106720-41439-1",
-        "start_end": "01-16",
-        "time": "周四第3,4,5节{第1-16周}",
-        "location": "第6教研楼中309",
-        "academic": "机械工程学院",
-        "other": "18010114"}
-        self.assertEqual(db.insert_one('db_test', testdata), 'Insert data succeed')
+    def test_insert_one(self):
+        test_data = {
+            "status": "已开",
+            "title": "管理统计方法与应用",
+            "credit": "3",
+            "method": "学校组织",
+            "property": "学科必修",
+            "teacher": "梁燕华",
+            "class_id": "(2020-2021-2)-A0300850-41415-2",
+            "time_info": "[{'weekday': '周一', 'start': '10:00', 'end': '12:25', 'location': '第6教研楼北212'}]",
+            "week_info": "{'start': 1, 'end': 16, 'flag': 0}",
+            "location": "['第6教研楼北212']",
+            "academic": "管理学院",
+            "other": "['19031312']"
+        }
+        self.assertIsNone(self.db.insert_one('db_test', test_data))
 
     def tearDown(self):
-        db = DBSqlite()
-        db.drop_table('db_test')
-    
+        self.db.drop_table('db_test')
+        os.remove("courses.db")
+
+
 if __name__ == "__main__":
     unittest.main()

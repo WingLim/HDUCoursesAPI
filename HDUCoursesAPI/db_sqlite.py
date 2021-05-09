@@ -10,11 +10,11 @@ def disconnect(conn: sqlite3.Connection, cu: sqlite3.Cursor):
 
 class DBSqlite:
 
-    def __init__(self):
-        self.dbname = 'data/courses.db'
+    def __init__(self, dbname: str = 'data/courses.db'):
+        self.dbname = dbname
     
     # 连接到数据库
-    def connect(self):
+    def connect(self) -> (sqlite3.Connection, sqlite3.Cursor):
         conn = sqlite3.connect(self.dbname)
         cu = conn.cursor()
         return conn, cu
@@ -63,18 +63,18 @@ class DBSqlite:
     def insert_one(self, table_name: str, data: dict):
         conn, cu = self.connect()
         sql = '''INSERT INTO '{}' VALUES (
-            '{status}',
-            '{title}',
+            "{status}",
+            "{title}""",
             {credit},
-            '{method}',
-            '{property}',
-            '{teacher}',
-            '{class_id}',
-            '{time_info}',
-            '{week_info}',
-            '{location}',
-            '{academic}',
-            '{other}'
+            "{method}",
+            "{property}",
+            "{teacher}",
+            "{class_id}",
+            "{time_info}",
+            "{week_info}",
+            "{location}",
+            "{academic}",
+            "{other}"
         );'''.format(table_name, **data)
         cu.execute(sql)
         conn.commit()
