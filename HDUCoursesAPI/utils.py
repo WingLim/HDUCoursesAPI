@@ -1,7 +1,7 @@
 def db2dict(data):
     result = []
-    key = ['status', 'title', 'credit', 'method', 'property', 'teacher', 
-    'class_id', 'start_end', 'time', 'location', 'academic', 'other']
+    key = ['status', 'title', 'credit', 'method', 'property', 'teacher',
+           'class_id', 'start_end', 'time', 'location', 'academic', 'other']
     for one in data:
         tmp = dict(zip(key, one))
         result.append(tmp)
