@@ -34,37 +34,25 @@ class DBJson:
             result = json.load(f)
             return result
 
-    def parse_week(self, timeinfo):
-        """解析课程每周信息
-        Args:
-            timeinfo: 课程的时间信息
-        Returns:
-            一个字典，包含开始周，结束周以及是否单双周
-            flag 为 1 则为每周上课，flag 为 2 则为单/双周上课
-            例子:
-            {
-                'start': 1,
-                'end': 16,
-                'flag': 1
-            }
-        """
+    def parse_week(self, time_info, start_end: str):
+        start, end = start_end.split("-")
+
         week_pattern = re.compile(r'{[^}]+}')
         data = {
             'start': 0,
             'end': 0,
             'flag': 0
         }
-        info = re.search(week_pattern, timeinfo).group()
+        info = re.search(week_pattern, time_info).group()
         single = re.search('单周', info)
         double = re.search('双周', info)
         if single is not None:
             data['flag'] = 1
         elif double is not None:
             data['flag'] = 2
-        dat = re.findall(r'(\d+)', info)
-        if dat and len(dat) >= 2:
-            data['start'] = int(dat[0])
-            data['end'] = int(dat [1])
+
+        data['start'] = int(start)
+        data['end'] = int(end)
         return data
 
     def parse_time(self, time_info: str, location_info: str):
@@ -103,11 +91,12 @@ class DBJson:
             info = {}
             t = one['time']
             if len(t) > 5:
-                info['week'] = self.parse_week(t)
+                info['week'] = self.parse_week(t, one['start_end'])
                 info['time'] = self.parse_time(t, one['location'])
                 one['time_info'] = info
             one['location'] = self.parse_location(one['location'])
             one['other'] = self.parse_other(one['other'])
             one.pop("time")
+            one.pop("start_end")
             result.append(one)
         return result
