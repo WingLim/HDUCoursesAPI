@@ -2,8 +2,7 @@ from typing import Optional
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from HDUCoursesAPI.db_sqlite import DBSqlite
-from HDUCoursesAPI.db_json import DBJson
-from HDUCoursesAPI.utils import db2dict
+from HDUCoursesAPI.utils import make_json
 
 app = FastAPI()
 db = DBSqlite()
@@ -42,9 +41,7 @@ def query(
 ):
     filters = Query(**req.query_params).dict(exclude_unset=True)
     r = db.fetch(tb, filters, limit=limit)
-    d = db2dict(r)
-    result = DBJson().cook_course_json(d)
-    return result
+    return make_json(r)
 
 
 @app.get('/courses/{column}/{data}')
@@ -67,6 +64,4 @@ def one_column(
 ):
     filters = Query(**req.query_params).dict(exclude_unset=True)
     r = db.fetch(tb, filters, column, data, limit)
-    d = db2dict(r)
-    result = DBJson().cook_course_json(d)
-    return result
+    return make_json(r)

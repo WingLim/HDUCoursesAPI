@@ -29,8 +29,8 @@ class DBSqlite:
             PROPERTY TEXT,
             TEACHER TEXT,
             CLASS_ID TEXT PRIMARY KEY NOT NULL,
-            START_END TEXT,
-            TIME TEXT,
+            TIME_INFO TEXT,
+            WEEK_INFO TEXT,
             LOCATION TEXT,
             ACADEMIC TEXT,
             OTHER TEXT
@@ -69,8 +69,8 @@ class DBSqlite:
             '{property}',
             '{teacher}',
             '{class_id}',
-            '{start_end}',
-            '{time}',
+            '{time_info}',
+            '{week_info}',
             '{location}',
             '{academic}',
             '{other}'
@@ -103,5 +103,9 @@ class DBSqlite:
         conn, cu = self.connect()
         sql = "SELECT * FROM '{}' {};".format(table_name, rule)
         cu.execute(sql)
+        names = [desc[0].lower() for desc in cu.description]
         r = cu.fetchmany(limit)
-        return r
+        res = []
+        for one in r:
+            res.append(dict(zip(names, one)))
+        return res

@@ -1,5 +1,7 @@
 from lxml import etree
 from functools import reduce
+from HDUCoursesAPI.course_model import Course
+from HDUCoursesAPI.utils import parse_week, parse_time, parse_other, parse_location
 import requests
 import threading
 import re
@@ -72,7 +74,7 @@ class CourseSpider:
         return r.content.decode('gb18030')
     
     # 获取完整的时间、地点、合班的信息
-    def get_complete_info(self, course):
+    def get_complete_info(self, course) -> str:
         if course.attrib == "":
             return course.text
         else:
@@ -84,20 +86,25 @@ class CourseSpider:
         course_list = selector.xpath("//*[@id='DBGrid']/tr")[1:-1]
         courses = []
         for one in course_list:
-            course = {}
-            course['status'] = one.xpath("./td[1]/text()")[0]
-            course['title'] = one.xpath("./td[2]/text()")[0]
-            course['credit'] = one.xpath("./td[3]/text()")[0]
-            course['method'] = one.xpath("./td[4]/text()")[0]
-            course['property'] = one.xpath("./td[5]/text()")[0]
-            course['teacher'] = one.xpath("./td[6]/text()")[0]
-            course['class_id'] = one.xpath("./td[7]/text()")[0]
-            course['start_end'] = one.xpath("./td[8]/text()")[0]
-            course['time'] = self.get_complete_info(one.xpath("./td[9]")[0])
-            course['location'] = self.get_complete_info(one.xpath("./td[10]")[0])
-            course['academic'] = one.xpath("./td[11]/text()")[0]
-            course['other'] = self.get_complete_info(one.xpath("./td[12]")[0])
-            courses.append(course)
+            course = Course()
+            course.status = one.xpath("./td[1]/text()")[0]
+            course.title = one.xpath("./td[2]/text()")[0]
+            course.credit = float(one.xpath("./td[3]/text()")[0])
+            course.method = one.xpath("./td[4]/text()")[0]
+            course.property = one.xpath("./td[5]/text()")[0]
+            course.teacher = one.xpath("./td[6]/text()")[0]
+            course.class_id = one.xpath("./td[7]/text()")[0]
+            start_end = one.xpath("./td[8]/text()")[0]
+            time_info = self.get_complete_info(one.xpath("./td[9]")[0])
+            location_info = self.get_complete_info(one.xpath("./td[10]")[0])
+            location = parse_location(location_info)
+            course.time_info = str(parse_time(time_info, location_info))
+            course.week_info = str(parse_week(time_info, start_end))
+            course.location = str(location)
+            course.academic = one.xpath("./td[11]/text()")[0]
+            other_info = self.get_complete_info(one.xpath("./td[12]")[0])
+            course.other = str(parse_other(other_info))
+            courses.append(course.__dict__)
         self.page_count = num
         print("parsed page", num)
         return courses
@@ -120,15 +127,15 @@ class CourseSpider:
         first_request = self.select_year_term(year, term)
         first_page = self.parse_course(first_request, 1)
         result.extend(first_page)
-        pagesinfo = self.parse_pageinfo(first_request)
+        pages_info = self.parse_pageinfo(first_request)
         i = 0
-        while i < len(pagesinfo):
-            self.post_data['__EVENTTARGET'] = pagesinfo[i][1]
+        while i < len(pages_info):
+            self.post_data['__EVENTTARGET'] = pages_info[i][1]
             next_request = self.post_request()
-            next_page = self.parse_course(next_request, pagesinfo[i][0])
+            next_page = self.parse_course(next_request, pages_info[i][0])
             result.extend(next_page)
-            if i == len(pagesinfo) - 1 and pagesinfo[i][0] == "...":
-                pagesinfo.extend(self.parse_pageinfo(next_request))
+            if i == len(pages_info) - 1 and pages_info[i][0] == "...":
+                pages_info.extend(self.parse_pageinfo(next_request))
                 i += 2
             else:
                 i += 1
