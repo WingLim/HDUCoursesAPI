@@ -66,24 +66,26 @@ class DBJson:
             data['start'] = int(dat[0])
             data['end'] = int(dat [1])
         return data
-    
-    def parse_time(self, time_info):
-        regex = re.compile(r'第(.{0,8})节')
-        result = regex.findall(time_info)
-        course_period_list = []
-        for one in result:
-            course_period_list.extend(one.split(','))
-        # 一共几节课
-        course_period_num = len(course_period_list)
-        # 第一节课是第几节
-        course_period_start = int(course_period_list[0])
-        # 最后一节是第几节
-        course_period_end = int(course_period_list[course_period_num - 1])
-        # 开始上课时间
-        dtstart_time = self.dict_week_start[course_period_start]
-        # 最后一节课下课时间
-        dtend_time = self.dict_week_end[course_period_end]
-        return dtstart_time, dtend_time
+
+    def parse_time(self, time_info: str):
+        times = time_info.split(";")
+        result = []
+        for item in times:
+            regex = re.compile(r'第(.{0,8})节')
+            regex_result = regex.findall(item)
+            course_period_list = []
+            for one in regex_result:
+                course_period_list.extend(one.split(','))
+            course_period_num = len(course_period_list)
+            course_period_start = int(course_period_list[0])
+            course_period_end = int(course_period_list[course_period_num - 1])
+            one = {
+                'weekday': item[0:2],
+                'start': self.dict_week_start[course_period_start].strftime('%H:%M'),
+                'end': self.dict_week_end[course_period_end].strftime('%H:%M')
+            }
+            result.append(one)
+        return result
     
     def cook_course_json(self, export_courses):
         result = []
@@ -92,8 +94,7 @@ class DBJson:
             t = one['time']
             if len(t) > 5:
                 info['week'] = self.parse_week(t)
-                info['weekday'] = t[0:2]
-                info['start'], info['end'] = (i.strftime('%H:%M') for i in self.parse_time(t)) 
+                info['time'] = self.parse_time(t)
                 one['timeinfo'] = info
             result.append(one)
         return result
