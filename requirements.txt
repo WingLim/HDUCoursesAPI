@@ -2,3 +2,5 @@ pydantic==1.8.1
 requests==2.23.0
 lxml==4.6.3
 fastapi==0.64.0
+uvloop==0.15.2
+PyYAML==5.4.1
