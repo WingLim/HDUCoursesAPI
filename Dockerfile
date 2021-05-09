@@ -8,9 +8,10 @@ WORKDIR /root
 COPY . .
 
 RUN apk add --no-cache gcc musl-dev libxml2-dev libxslt-dev \
-    && pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+    && pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip install 'uvicorn[standard]' -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 清理缓存
 RUN rm -rf /tmp/* /var/cache/apk/*
 
-ENTRYPOINT [ "python", "server.py" ]
+ENTRYPOINT [ "uvicorn", "server:app" ]
