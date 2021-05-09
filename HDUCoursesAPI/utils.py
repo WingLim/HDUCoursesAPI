@@ -7,6 +7,7 @@ def db2dict(data):
         result.append(tmp)
     return result
 
+
 def count2dict(data):
     result = {"count": len(data)}
     tmp = []
@@ -14,6 +15,7 @@ def count2dict(data):
         tmp.append(one[0])
     result["data"] = tmp
     return result
+
 
 def dict2sql(data):
     sql = "WHERE"

@@ -22,7 +22,7 @@ class TestSqlite(unittest.TestCase):
         "location": "第6教研楼中309",
         "academic": "机械工程学院",
         "other": "18010114"}
-        self.assertEqual(db.insertone('db_test', testdata), 'Insert data succeed')
+        self.assertEqual(db.insert_one('db_test', testdata), 'Insert data succeed')
 
     def tearDown(self):
         db = DBSqlite()

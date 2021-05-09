@@ -40,7 +40,7 @@ def onecolume(data):
 
 @app.route('/courses/teachers')
 def teachers():
-    r = db.fetchcount(tb, 'TEACHER')
+    r = db.fetch_count(tb, 'TEACHER')
     result = count2dict(r)
     return make_response(jsonify(result))
 

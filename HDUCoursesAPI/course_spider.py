@@ -5,6 +5,7 @@ import threading
 import re
 import time
 
+
 class CourseSpider:
     def __init__(self):
         self.course_url = "http://jxgl.hdu.edu.cn/jxrwcx.aspx" 
@@ -38,14 +39,14 @@ class CourseSpider:
     # 更新 POST 请求中 __VIEWSTATE 和 __EVENTVALIDATION 的值
     def refresh_validation(self, response):
         selector = etree.HTML(response.text)
-        viewstate = selector.xpath("//*[@id='__VIEWSTATE']/@value")[0]
-        eventvalidation = selector.xpath("//*[@id='__EVENTVALIDATION']/@value")[0]
-        self.post_data['__VIEWSTATE'] = viewstate
-        self.post_data['__EVENTVALIDATION'] = eventvalidation
-    
+        view_state = selector.xpath("//*[@id='__VIEWSTATE']/@value")[0]
+        event_validation = selector.xpath("//*[@id='__EVENTVALIDATION']/@value")[0]
+        self.post_data['__VIEWSTATE'] = view_state
+        self.post_data['__EVENTVALIDATION'] = event_validation
+
     # 去除最终结果中的重复项
     def remove_duplication(self, result):
-        f = lambda x,y:x if y in x else x + [y]
+        f = lambda x, y: x if y in x else x + [y]
         result = reduce(f, [[], ] + result)
         return result
 

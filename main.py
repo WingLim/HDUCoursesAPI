@@ -24,7 +24,7 @@ class HDUCourses():
     def write2sqlite(self):
         db = DBSqlite()
         db.create_table(self.filename)
-        db.insertmany(self.filename, self.result)
+        db.insert_many(self.filename, self.result)
 
     def run(self):
         self.spidercourse()
