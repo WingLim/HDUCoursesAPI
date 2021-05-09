@@ -67,10 +67,11 @@ class DBJson:
             data['end'] = int(dat [1])
         return data
 
-    def parse_time(self, time_info: str):
+    def parse_time(self, time_info: str, location_info: str):
         times = time_info.split(";")
+        locations = location_info.split(";")
         result = []
-        for item in times:
+        for i, item in enumerate(times):
             regex = re.compile(r'第(.{0,8})节')
             regex_result = regex.findall(item)
             course_period_list = []
@@ -82,19 +83,31 @@ class DBJson:
             one = {
                 'weekday': item[0:2],
                 'start': self.dict_week_start[course_period_start].strftime('%H:%M'),
-                'end': self.dict_week_end[course_period_end].strftime('%H:%M')
+                'end': self.dict_week_end[course_period_end].strftime('%H:%M'),
+                'location': locations[i]
             }
             result.append(one)
         return result
-    
-    def cook_course_json(self, export_courses):
+
+    def parse_location(self, location_info: str):
+        locations = location_info.split(";")
+        res = set(locations)
+        return res
+
+    def parse_other(self, other_info: str):
+        return other_info.split(",")
+
+    def cook_course_json(self, export_courses: list[dict]):
         result = []
         for one in export_courses:
             info = {}
             t = one['time']
             if len(t) > 5:
                 info['week'] = self.parse_week(t)
-                info['time'] = self.parse_time(t)
-                one['timeinfo'] = info
+                info['time'] = self.parse_time(t, one['location'])
+                one['time_info'] = info
+            one['location'] = self.parse_location(one['location'])
+            one['other'] = self.parse_other(one['other'])
+            one.pop("time")
             result.append(one)
         return result
