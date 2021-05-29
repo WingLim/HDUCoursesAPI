@@ -8,6 +8,7 @@ def make_json(data: list) -> list:
     for one in data:
         for i in need_deserialization:
             one[i] = one[i].replace("'", "\"")
+            one[i] = one[i].replace("\\xa0", '')
             one[i] = json.loads(one[i])
     return data
 
@@ -21,14 +22,20 @@ def count2dict(data):
     return result
 
 
-def dict2sql(data):
+def dict2sql(data: dict):
     sql = "WHERE"
-    if 'limit' in data.keys():
-        data.pop('limit')
     try:
         data.pop(None)
     except KeyError:
         pass
+
+    if 'time' in data.keys():
+        data['time_info'] = data['time']
+        data.pop('time')
+    if 'week' in data.keys():
+        data['week_info'] = data['week']
+        data.pop('week')
+
     if len(data.keys()) >= 1:
         for k, v in data.items():
             v = "'%{}%'".format(v)
