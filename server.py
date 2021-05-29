@@ -1,27 +1,23 @@
 from typing import Optional
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from HDUCoursesAPI.db_sqlite import DBSqlite
-from HDUCoursesAPI.utils import make_json
+from HDUCoursesAPI.db_mongo import DBMongo
+import uvicorn
 
 app = FastAPI()
-
-origins = [
-    "http://127.0.0.1:3000"
-]
-
+origins = ['*']
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins
 )
 
-db = DBSqlite()
 tb = 'course2020-20212'
+db = DBMongo('mongodb://localhost', 'courses', tb)
 
 
-class Query(BaseModel):
-    status: Optional[int] = None
+class QueryModel(BaseModel):
+    status: Optional[str] = None
     title: Optional[str] = None
     credit: Optional[int] = None
     method: Optional[str] = None
@@ -29,6 +25,7 @@ class Query(BaseModel):
     teacher: Optional[str] = None
     class_id: Optional[str] = None
     time: Optional[str] = None
+    weekday: Optional[str] = None
     location: Optional[str] = None
     academic: Optional[str] = None
     other: Optional[str] = None
@@ -36,43 +33,14 @@ class Query(BaseModel):
 
 @app.get("/courses/query")
 def query(
-        req: Request,
-        status: Optional[int] = None,
-        title: Optional[str] = None,
-        credit: Optional[int] = None,
-        method: Optional[str] = None,
-        property: Optional[str] = None,
-        teacher: Optional[str] = None,
-        class_id: Optional[str] = None,
-        time: Optional[str] = None,
-        location: Optional[str] = None,
-        academic: Optional[str] = None,
-        other: Optional[str] = None,
-        limit: int = 10
-):
-    filters = Query(**req.query_params).dict(exclude_unset=True)
-    r = db.fetch(tb, filters, limit=limit)
-    return make_json(r)
-
-
-@app.get('/courses/{column}/{data}')
-def one_column(
-        req: Request,
-        column: str,
-        data: str,
+        params: QueryModel = Depends(),
         limit: int = 10,
-        status: Optional[int] = None,
-        title: Optional[str] = None,
-        credit: Optional[int] = None,
-        method: Optional[str] = None,
-        property: Optional[str] = None,
-        teacher: Optional[str] = None,
-        class_id: Optional[str] = None,
-        time: Optional[str] = None,
-        location: Optional[str] = None,
-        academic: Optional[str] = None,
-        other: Optional[str] = None,
+        page: int = 0
 ):
-    filters = Query(**req.query_params).dict(exclude_unset=True)
-    r = db.fetch(tb, filters, column, data, limit)
-    return make_json(r)
+    filters = params.dict(exclude_unset=True, exclude_none=True)
+    r = db.find(filters, limit=limit, page=page)
+    return r
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="0.0.0.0", port=8000)
