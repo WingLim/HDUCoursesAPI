@@ -1,6 +1,7 @@
 from HDUCoursesAPI.course_spider import CourseSpider
 from HDUCoursesAPI.db_json import DBJson
 from HDUCoursesAPI.db_sqlite import DBSqlite
+from HDUCoursesAPI.db_mongo import DBMongo
 
 
 class HDUCourses:
@@ -20,16 +21,14 @@ class HDUCourses:
     def write2json(self):
         DBJson.write(self.filename, self.result)
 
-    # 将数据写入到 sqlite 数据库
-    def write2sqlite(self):
-        db = DBSqlite()
-        db.create_table(self.filename)
-        db.insert_many(self.filename, self.result)
+    def write2mongo(self):
+        db = DBMongo('mongodb://localhost', 'courses', self.filename)
+        db.insert_many(self.result)
 
     def run(self):
         self.spider_course()
         self.write2json()
-        self.write2sqlite()
+        self.write2mongo()
 
 
 if __name__ == "__main__":

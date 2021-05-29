@@ -42,3 +42,6 @@ class DBMongo:
             one.pop('_id')
             result.append(one)
         return result
+
+    def insert_many(self, data: list):
+        self.table.insert_many(data)
