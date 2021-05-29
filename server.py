@@ -3,6 +3,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from HDUCoursesAPI.db_mongo import DBMongo
+from HDUCoursesAPI.config import mongo_url
 import uvicorn
 
 app = FastAPI()
@@ -13,7 +14,7 @@ app.add_middleware(
 )
 
 tb = 'course2020-20212'
-db = DBMongo('mongodb://localhost', 'courses', tb)
+db = DBMongo(mongo_url(), 'courses', tb)
 
 
 class QueryModel(BaseModel):

@@ -1,6 +1,7 @@
 from HDUCoursesAPI.course_spider import CourseSpider
 from HDUCoursesAPI.db_json import DBJson
 from HDUCoursesAPI.db_mongo import DBMongo
+from HDUCoursesAPI.config import mongo_url
 
 
 class HDUCourses:
@@ -21,7 +22,7 @@ class HDUCourses:
         DBJson.write(self.filename, self.result)
 
     def write2mongo(self):
-        db = DBMongo('mongodb://localhost', 'courses', self.filename)
+        db = DBMongo(mongo_url(), 'courses', self.filename)
         db.insert_many(self.result)
 
     def run(self):
