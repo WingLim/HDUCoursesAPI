@@ -1,4 +1,5 @@
 import json
+from HDUCoursesAPI.utils import make_json
 
 
 class DBJson:
@@ -11,4 +12,4 @@ class DBJson:
     def read(filename='output') -> list:
         with open('data/' + filename + '.json', 'r', encoding='utf8') as f:
             result = json.load(f)
-            return result
+            return make_json(result)
