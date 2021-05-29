@@ -10,4 +10,4 @@ RUN apk add --no-cache gcc musl-dev \
 
 RUN rm -rf /tmp/* /var/cache/apk/*
 
-ENTRYPOINT [ "uvicorn", "server:app", "--host", "0.0.0.0" ]
+ENTRYPOINT [ "python", "server.py" ]
