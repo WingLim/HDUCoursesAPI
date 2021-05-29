@@ -1,6 +1,5 @@
 from HDUCoursesAPI.course_spider import CourseSpider
 from HDUCoursesAPI.db_json import DBJson
-from HDUCoursesAPI.db_sqlite import DBSqlite
 from HDUCoursesAPI.db_mongo import DBMongo
 
 
