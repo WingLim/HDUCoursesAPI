@@ -1,50 +1,3 @@
-!!! info
-    **下列 API 均可通过可选参数进行筛选**
-
-    **返回值均相同**
-
-## 根据老师名查找
-
-```url
-GET https://api.limxw.com/courses/teacher/{$老师名}
-```
-
-### 请求样例
-```url
-GET https://api.limxw.com/courses/teacher/杨子飞
-```
-
-
-## 根据课程名查找
-```url
-GET https://api.limxw.com/courses/title/{$课程名}
-```
-### 请求样例
-```url
-GET https://api.limxw.com/courses/title/高等数学
-```
-
-
-## 根据时间查找
-```url
-GET https://api.limxw.com/courses/time/{$时间}
-```
-### 请求样例
-```url
-https://api.limxw.com/courses/time/周三
-```
-
-
-## 根据课程属性查找
-```url
-GET https://api.limxw.com/courses/property/{$属性}
-```
-### 请求样例
-```url
-GET https://api.limxw.com/courses/property/通识必修
-```
-
-
 ## 根据筛选条件查找
 ```url
 GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&location=7教&teacher=彭章明&credit=3
@@ -77,6 +30,7 @@ GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&locati
 | 参数名 | 类型 | 默认值 | 说明   |
 | -------- | ------ |----|-------- |
 | limit | INT    | 10 |输出数量 |
+| page  | INT    | 0  |分页     |
 | status   | String |    |开课状态 |
 | title    | String |    |课程名称 |
 | credit   | INT    |    |学分   |
@@ -85,6 +39,7 @@ GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&locati
 | teacher  | String |    |老师名字 |
 | class_id | String |    |课程代号 |
 | time     | String |    |上课时间 |
+| weekday  | String |    |上课日期 |
 | location | String |    |上课地点 |
 | academic | String |    |开课学院 |
 | other    | String |    |合班信息 |
