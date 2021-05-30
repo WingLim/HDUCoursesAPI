@@ -2,8 +2,8 @@ import os
 
 
 def mongo_url() -> str:
-    url = os.environ['MONGODB_URL']
-
-    if mongo_url == '':
+    if 'MONGODB_URL' in os.environ.keys():
+        url = os.environ['MONGODB_URL']
+    else:
         url = 'mongodb://localhost'
     return url
