@@ -19,7 +19,7 @@ self.term = '2'
 
 ### API 服务
 
-默认端口号为 `3000`
+默认端口号为 `8000`
 
 ```python
 python server.py
@@ -28,6 +28,11 @@ python server.py
 ### API 文档
 https://winglim.github.io/HDUCoursesAPI
 
-## TODO
-- [] 多天课程解析
-- [] 去除重复上课地点
+### 导入数据到数据库
+
+```bash
+mongoimport -d courses -c course2020-20212 \
+  --uri mongodb://username:password@localhost \
+  --authenticationDatabase admin \
+  --jsonArray courses_course2020_20212.json
+```
