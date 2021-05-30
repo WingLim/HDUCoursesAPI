@@ -1,6 +1,7 @@
 ## 根据筛选条件查找
 ```url
-GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&location=7教&teacher=彭章明&credit=3
+curl --location --request GET \
+    'https://api.limxw.com/courses/query?title=高等数学&weekday=周四'
 ```
 
 
@@ -8,18 +9,40 @@ GET https://api.limxw.com/courses/query?academic=机械工程&time=周三&locati
 ```json
 [
     {
-        status: "已开",
-        title: "液压与气动(甲)",
-        credit: "3",
-        method: "学校组织",
-        property: "专业选修",
-        teacher: "彭章明",
-        class_id: "(2019-2020-1)-B0103630-41263-1",
-        start_end: "01-15",
-        time: "周一第3,4节{第1-15周};周三第1,2节{第1-15周|单周}",
-        location: "第7教研楼北322;第7教研楼北322",
-        academic: "机械工程学院",
-        other: "17010111,17010112,17010113,17010114"
+        "academic": "理学院",
+        "class_id": "(2020-2021-2)-A071432s-41823-1",
+        "credit": 5,
+        "location": [
+            "第12教研楼108"
+        ],
+        "method": "学校组织",
+        "other": [
+            "20320111",
+            "20320112"
+        ],
+        "property": "学科必修",
+        "status": "已开",
+        "teacher": "韩斌",
+        "time_info": [
+            {
+                "weekday": "周四",
+                "start": "15:15",
+                "end": "16:50",
+                "location": "第12教研楼108"
+            },
+            {
+                "weekday": "周五",
+                "start": "10:00",
+                "end": "12:25",
+                "location": "第12教研楼108"
+            }
+        ],
+        "title": "高等数学A2",
+        "week_info": {
+            "start": 1,
+            "end": 16,
+            "flag": 0
+        }
     }
 ]
 ```

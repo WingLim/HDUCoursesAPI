@@ -9,7 +9,6 @@ repo_url: https://github.com/WingLim/HDUCoursesAPI
 
 nav:
     - 课程详情: index.md
-    - 课程统计: count.md
 
 markdown_extensions:
     - codehilite
