@@ -4,13 +4,23 @@ import re
 
 def handle_filters(filters: dict) -> dict:
     weekday = ''
+    time = ''
     if 'weekday' in filters.keys():
         weekday = filters['weekday']
         filters.pop('weekday')
+    if 'time' in filters.keys():
+        time = filters['time']
+        filters.pop('time')
 
     filters = fuzzy_query(filters)
     if weekday != '':
         filters['time_info'] = {'$elemMatch': {'weekday': weekday}}
+    if time != '':
+        start, end = time.split(',')
+        if 'time_info' in filters.keys():
+            filters['time_info']['$elemMatch'].update({'start': start, 'end': end})
+        else:
+            filters['time_info'] = {'$elemMatch': {'start': start, 'end': end}}
 
     return filters
 
