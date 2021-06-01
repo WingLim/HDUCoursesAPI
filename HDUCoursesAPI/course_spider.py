@@ -70,8 +70,6 @@ class CourseSpider:
         self.post_data['__VIEWSTATE'] = view_state
         self.post_data['__EVENTVALIDATION'] = event_validation
 
-    # 去除最终结果中的重复项
-
     # 选择要爬取的年份和学期
     def select_year_term(self, year: str, term: str) -> str:
         self.post_data['ddlXN'] = year

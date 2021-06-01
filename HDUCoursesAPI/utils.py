@@ -46,6 +46,13 @@ def dict2sql(data: dict):
         return ''
 
 
+# 判断是否为偶数
+def is_even(num):
+    if num % 2 == 0:
+        return True
+    return False
+
+
 def parse_week(time_info: str, start_end: str) -> dict:
     week_pattern = re.compile(r'{[^}]+}')
     data = {
@@ -54,17 +61,24 @@ def parse_week(time_info: str, start_end: str) -> dict:
         'flag': 0
     }
     if time_info != "" and time_info != "\xa0" and start_end != "" and start_end != "\xa0":
-        start, end = start_end.split("-")
+        start, end = map(int, start_end.split("-"))
         info = re.search(week_pattern, time_info).group()
         single = re.search('单周', info)
         double = re.search('双周', info)
         if single is not None:
             data['flag'] = 1
+            if is_even(start):
+                start += 1
+            if is_even(end):
+                end -= 1
         elif double is not None:
             data['flag'] = 2
-
-        data['start'] = int(start)
-        data['end'] = int(end)
+            if not is_even(start):
+                start += 1
+            if not is_even(end):
+                end -= 1
+        data['start'] = start
+        data['end'] = end
     return data
 
 
