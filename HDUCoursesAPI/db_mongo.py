@@ -27,12 +27,13 @@ def handle_filters(filters: dict) -> dict:
 
 def fuzzy_query(filters: dict) -> dict:
     for key, value in filters.items():
-        tmp_str = '.*'
-        for char in value:
-            tmp_str += char
-            tmp_str += '.*'
-        tmp_re = re.compile(tmp_str)
-        filters[key] = tmp_re
+        if isinstance(value, Iterable):
+            tmp_str = '.*'
+            for char in value:
+                tmp_str += char
+                tmp_str += '.*'
+            tmp_re = re.compile(tmp_str)
+            filters[key] = tmp_re
     return filters
 
 
