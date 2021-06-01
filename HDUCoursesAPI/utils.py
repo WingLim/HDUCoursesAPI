@@ -96,6 +96,7 @@ def parse_time(time_info: str, location_info: str) -> list[dict]:
 
 
 def parse_location(location_info: str) -> list:
+    location_info.replace('\\xa0', '')
     locations = location_info.split(";")
     return list(set(locations))
 

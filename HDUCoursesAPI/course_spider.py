@@ -111,9 +111,9 @@ class CourseSpider:
             time_info = get_complete_info(one.xpath("./td[9]")[0])
             location_info = get_complete_info(one.xpath("./td[10]")[0])
             location = parse_location(location_info)
-            course.time_info = str(parse_time(time_info, location_info))
-            course.week_info = str(parse_week(time_info, start_end))
-            course.location = str(location)
+            course.time_info = parse_time(time_info, location_info)
+            course.week_info = parse_week(time_info, start_end)
+            course.location = location
             course.academic = one.xpath("./td[11]/text()")[0]
             other_info = get_complete_info(one.xpath("./td[12]")[0])
             course.other = str(parse_other(other_info))
