@@ -19,9 +19,11 @@ class HDUCourses:
 
     # 将数据写到 json
     def write2json(self):
+        print("正在写入数据到文件...")
         DBJson.write(self.filename, self.result)
 
     def write2mongo(self):
+        print("正在写入数据到 MongoDB ...")
         db = DBMongo(mongo_url(), 'courses', self.filename)
         db.insert_many(self.result)
 

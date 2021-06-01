@@ -93,8 +93,6 @@ class CourseSpider:
         self.refresh_validation(r)
         return r.content.decode('gb18030')
 
-    # 获取完整的时间、地点、合班的信息
-
     # 解析一页中的课程信息
     def parse_course(self, content: str, num: int) -> list[dict]:
         selector = etree.HTML(content)
@@ -121,10 +119,8 @@ class CourseSpider:
             course.other = str(parse_other(other_info))
             courses.append(course.__dict__)
         self.page_count = num
-        print("parsed page", num)
+        print(f"正在解析第 {num} 页...")
         return courses
-
-    # 解析页码信息
 
     def run(self, year: str, term: str) -> list[dict]:
         result = []
@@ -149,7 +145,11 @@ class CourseSpider:
         result = remove_duplication(result)
         self.status = 'finished'
         self.end_time = time.time()
-        print("total cost", self.end_time - self.start_time)
+
+        diff = self.end_time - self.start_time
+        m, s = divmod(diff, 60)
+        print(f"总共花费时间: {int(m)}:{int(s)}", )
+        print(f"总共爬取 {len(result)} 条课程信息")
         return result
 
 
