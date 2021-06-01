@@ -1,16 +1,21 @@
 import pymongo
 import re
+from collections import Iterable
 
 
 def handle_filters(filters: dict) -> dict:
     weekday = ''
     time = ''
+    week = ''
     if 'weekday' in filters.keys():
         weekday = filters['weekday']
         filters.pop('weekday')
     if 'time' in filters.keys():
         time = filters['time']
         filters.pop('time')
+    if 'week_info' in filters.keys():
+        week = filters['week_info']
+        filters.pop('week_info')
 
     filters = fuzzy_query(filters)
     if weekday != '':
@@ -22,6 +27,9 @@ def handle_filters(filters: dict) -> dict:
         else:
             filters['time_info'] = {'$elemMatch': {'start': start, 'end': end}}
 
+    if week != '':
+        start, end, flag = map(int, week.split(','))
+        filters['week_info'] = {'$eq': {'start': start, 'end': end, 'flag': flag}}
     return filters
 
 
