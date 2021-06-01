@@ -27,6 +27,7 @@ class QueryModel(BaseModel):
     class_id: Optional[str] = None
     time: Optional[str] = None
     weekday: Optional[str] = None
+    week_info: Optional[str] = None
     location: Optional[str] = None
     academic: Optional[str] = None
     other: Optional[str] = None
@@ -38,7 +39,7 @@ def query(
         limit: int = 10,
         page: int = 0
 ):
-    filters = params.dict(exclude_unset=True, exclude_none=True)
+    filters = params.dict(exclude_none=True)
     r = db.find(filters, limit=limit, page=page)
     return r
 
