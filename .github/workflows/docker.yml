@@ -29,8 +29,18 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
+          file: ./docker/Dockerfile
           push: true
           tags: |
             winglim/hducourses:latest
             ghcr.io/winglim/hducourses:latest
+
+      - name: Build database docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile.db
+          push: true
+          tags: |
+            winglim/hducourses:db
+            ghcr.io/winglim/hducourses:db

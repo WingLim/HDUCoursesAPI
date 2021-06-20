@@ -1,0 +1,12 @@
+FROM mongo:latest
+
+ENV USERNAME=root PASSWORD=root HOSTNAME=mongodb
+
+WORKDIR /root
+
+COPY ./data ./data
+
+CMD mongoimport -d courses -c course2020-20212 \
+    --uri mongodb://$USERNAME:$PASSWORD@$HOSTNAME \
+    --authenticationDatabase admin \
+    --jsonArray data/courses_course2020_20212.json
