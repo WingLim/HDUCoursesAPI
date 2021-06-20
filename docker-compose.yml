@@ -1,5 +1,10 @@
 version: '3'
 services:
+    courses:
+        image: winglim/hducourses
+        environment:
+            MONGODB_URL: mongodb://mongoadmin:secret@mongodb
+
     mongodb:
         image: mongo
         environment:
@@ -8,7 +13,7 @@ services:
             MONGO_INITDB_DATABASE: courses
 
     mongo_seed:
-        image: winglim/hducourses:db
+        image: winglim/hducoursesdb
         environment:
             USERNAME: mongoadmin
             PASSWORD: secret
