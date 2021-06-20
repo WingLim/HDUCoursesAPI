@@ -4,3 +4,4 @@ __pycache__
 .~*.md
 .idea
 venv
+.DS_Store
