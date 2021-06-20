@@ -42,5 +42,5 @@ jobs:
           file: ./docker/Dockerfile.db
           push: true
           tags: |
-            winglim/hducourses:db
-            ghcr.io/winglim/hducourses:db
+            winglim/hducoursesdb:latest
+            ghcr.io/winglim/hducoursesdb:latest
