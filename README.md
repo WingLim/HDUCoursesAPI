@@ -39,13 +39,13 @@ mongoimport -d courses -c course2020-20212 \
 
 ## 使用 Docker 部署
 
-`winglim/hducourses` 镜像为 API 服务
+[`winglim/hducourses`](https://github.com/WingLim/HDUCoursesAPI/pkgs/container/hducourses) 镜像为 API 服务
 
 可配置的环境变量如下:
 
 - `MONGODB_URL` - 连接到 `mongodb` 数据库的地址
 
-`winglim/hducoursesdb` 镜像会导入课程数据到 `mongodb` - 默认值 [`mongodb://localhost`](https://github.com/WingLim/HDUCoursesAPI/blob/1cd017e62ed89d194ba34409278302121e3b45cf/HDUCoursesAPI/config.py#L6)
+[`winglim/hducoursesdb`](https://github.com/WingLim/HDUCoursesAPI/pkgs/container/hducoursesdb) 镜像会导入课程数据到 `mongodb` - 默认值 [`mongodb://localhost`](https://github.com/WingLim/HDUCoursesAPI/blob/1cd017e62ed89d194ba34409278302121e3b45cf/HDUCoursesAPI/config.py#L6)
 
 可配置的环境变量如下:
 
