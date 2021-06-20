@@ -13,39 +13,6 @@ def make_json(data: list) -> list:
     return data
 
 
-def count2dict(data):
-    result = {"count": len(data)}
-    tmp = []
-    for one in data:
-        tmp.append(one[0])
-    result["data"] = tmp
-    return result
-
-
-def dict2sql(data: dict):
-    sql = "WHERE"
-    try:
-        data.pop(None)
-    except KeyError:
-        pass
-
-    if 'time' in data.keys():
-        data['time_info'] = data['time']
-        data.pop('time')
-    if 'week' in data.keys():
-        data['week_info'] = data['week']
-        data.pop('week')
-
-    if len(data.keys()) >= 1:
-        for k, v in data.items():
-            v = "'%{}%'".format(v)
-            print(k, v)
-            sql += ' ' + k + ' LIKE ' + v + ' AND'
-        return sql[0:-4]
-    else:
-        return ''
-
-
 # 判断是否为偶数
 def is_even(num):
     if num % 2 == 0:
