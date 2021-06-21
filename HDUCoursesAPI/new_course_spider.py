@@ -42,20 +42,27 @@ class NewCourseSpider:
         exponent = b64tohex(json_result['exponent'])
         return modulus, exponent
 
-    def login(self):
+    def login(self) -> bool:
         token = self.get_csrf_token()
         modulus, exponent = self.get_public_key()
-        public_key = jsbn.RSAKey()
 
+        public_key = jsbn.RSAKey()
         public_key.setPublic(modulus, exponent)
         password = hex2b64(public_key.encrypt(self.password))
+
         login_data = [
             ("csrftoken", token),
             ("yhm", self.userid),
             ("mm", password),
             ("mm", password),
         ]
-        self.s.post(self.login_url+self.now_time, data=login_data)
+        r = self.s.post(self.login_url+self.now_time, data=login_data)
+        if r.url.find("login_slogin.html") == -1:
+            print("登录成功")
+            return True
+        else:
+            print("登录失败")
+            return False
 
 
 if __name__ == "__main__":
