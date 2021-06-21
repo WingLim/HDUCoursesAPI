@@ -7,8 +7,8 @@ import jsbn
 
 class NewCourseSpider:
     def __init__(self, userid: str, password: str):
-        self.base_url = "http://newjw.hdu.edu.cn/jwglxt/xtgl"
-        self.login_url = self.base_url + "/login_slogin.html?time="
+        self.base_url = "http://newjw.hdu.edu.cn/jwglxt"
+        self.login_url = self.base_url + "/xtgl/login_slogin.html?time="
         self.s = requests.session()
         self.now_time = str(int(time.time()))
         self.userid = userid
@@ -34,7 +34,7 @@ class NewCourseSpider:
         return token
 
     def get_public_key(self) -> tuple[str, str]:
-        public_key_url = "/login_getPublicKey.html?time="
+        public_key_url = "/xtgl/login_getPublicKey.html?time="
 
         r = self.s.get(self.base_url+public_key_url+self.now_time)
         json_result = r.json()
@@ -63,6 +63,28 @@ class NewCourseSpider:
         else:
             print("登录失败")
             return False
+
+    def get_personal_schedule(self, year: str = "2021", term: str = "1") -> dict:
+        if not self.login():
+            return {}
+        term_dict = {
+            "1": "3",
+            "2": "12",
+            "3": "16"
+        }
+        schedule_url = "/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su=" + self.userid
+        schedule_index_url = "kbcx/xskbcx_cxXskbcxIndex.html?gnmkdm=N253508&layout=default&su=" + self.userid
+        self.s.headers.update({
+            "Referer": self.base_url + schedule_index_url
+        })
+
+        post_data = [
+            ("xnm", year),
+            ("xqm", term_dict[term]),
+            ("kzlx", "ck")
+        ]
+        r = self.s.post(self.base_url+schedule_url, data=post_data)
+        return r.json()
 
 
 if __name__ == "__main__":
