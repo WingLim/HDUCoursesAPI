@@ -4,6 +4,12 @@ import requests
 import time
 import jsbn
 
+term_dict = {
+    "1": "3",
+    "2": "12",
+    "3": "16"
+}
+
 
 class NewCourseSpider:
     def __init__(self, userid: str, password: str):
@@ -67,11 +73,6 @@ class NewCourseSpider:
     def get_personal_schedule(self, year: str = "2021", term: str = "1") -> dict:
         if not self.login():
             return {}
-        term_dict = {
-            "1": "3",
-            "2": "12",
-            "3": "16"
-        }
         schedule_url = "/kbcx/xskbcx_cxXsKb.html?gnmkdm=N253508&su=" + self.userid
         schedule_index_url = "kbcx/xskbcx_cxXskbcxIndex.html?gnmkdm=N253508&layout=default&su=" + self.userid
         self.s.headers.update({
