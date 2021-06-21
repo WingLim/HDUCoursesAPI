@@ -1,7 +1,7 @@
 from lxml import etree
 from functools import reduce
 from HDUCoursesAPI.course_model import Course
-from HDUCoursesAPI.utils import parse_week, parse_time, parse_other, parse_location
+from HDUCoursesAPI.parser import parse_week, parse_time, parse_other, parse_location
 import requests
 import threading
 import re
