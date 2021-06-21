@@ -1,5 +1,7 @@
 from lxml import etree
-from utils import hex2b64, b64tohex
+from HDUCoursesAPI.utils import hex2b64, b64tohex
+from HDUCoursesAPI.new_parser import parse_time, parse_week
+from course_model import Course
 import requests
 import time
 import jsbn
@@ -86,6 +88,26 @@ class NewCourseSpider:
         ]
         r = self.s.post(self.base_url+schedule_url, data=post_data)
         return r.json()
+
+    def parse_courses(self, raw_courses):
+        course_list = raw_courses['kbList']
+        courses = []
+        for one in course_list:
+            course = Course()
+            course.title = one['kcmc']
+            course.credit = one['xf']
+            course.method = one['khfsmc']
+            course.property = one['kcxz']
+            course.teacher = one['xm']
+            course.class_id = one['jxbmc']
+            time_info = one['jcor']
+            weekday = one['xqjmc']
+            course.time_info.append(parse_time(time_info, weekday))
+            week_info = one['zcd']
+            course.week_info = parse_week(week_info)
+            course.location = one['cdmc']
+            courses.append(course.__dict__)
+        return courses
 
 
 if __name__ == "__main__":
