@@ -89,7 +89,8 @@ class NewCourseSpider:
 
 
 if __name__ == "__main__":
-    userid = ""
-    passowrd = ""
+    import account
+    userid = account.userid
+    passowrd = account.password
     spider = NewCourseSpider(userid, passowrd)
-    spider.login()
+    spider.get_personal_schedule()
