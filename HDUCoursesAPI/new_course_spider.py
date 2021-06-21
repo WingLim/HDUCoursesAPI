@@ -1,5 +1,5 @@
 from lxml import etree
-from hdu_base64 import Base64
+from utils import hex2b64, b64tohex
 import requests
 import time
 import jsbn
@@ -38,9 +38,8 @@ class NewCourseSpider:
 
         r = self.s.get(self.base_url+public_key_url+self.now_time)
         json_result = r.json()
-        b64 = Base64()
-        modulus = b64.b64tohex(json_result['modulus'])
-        exponent = b64.b64tohex(json_result['exponent'])
+        modulus = b64tohex(json_result['modulus'])
+        exponent = b64tohex(json_result['exponent'])
         return modulus, exponent
 
     def login(self):
@@ -49,7 +48,7 @@ class NewCourseSpider:
         public_key = jsbn.RSAKey()
 
         public_key.setPublic(modulus, exponent)
-        password = Base64().hex2b64(public_key.encrypt(self.password))
+        password = hex2b64(public_key.encrypt(self.password))
         login_data = [
             ("csrftoken", token),
             ("yhm", self.userid),
