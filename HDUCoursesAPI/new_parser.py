@@ -1,14 +1,36 @@
 import re
 
 
-def parse_time(time_info: str, weekday: str) -> dict:
-    start, end = time_info.split("-")
+def parse_time(time_info: str, weekday: str, location: str) -> list:
+    time_list = time_info.split(',')
     weekday = weekday.replace("星期", "周")
-    result = {
-        "weekday": weekday,
-        "start": start,
-        "end": end
-    }
+    result = []
+    for one in time_list:
+        one = one[:-1]
+        start, end = one.split("-")
+        time_one = {
+            "weekday": weekday,
+            "start": start,
+            "end": end,
+            "location": location
+        }
+        result.append(time_one)
+    return result
+
+
+def parse_dup_time(time_info: str, weekday: list, location: list) -> list:
+    time_list = time_info.split(',')
+    result = []
+    for i, one in enumerate(time_list):
+        one = one[:-1]
+        start, end = one.split("-")
+        time_one = {
+            "weekday": weekday[i],
+            "start": start,
+            "end": end,
+            "location": location[i]
+        }
+        result.append(time_one)
     return result
 
 
