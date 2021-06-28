@@ -13,7 +13,7 @@ app.add_middleware(
     allow_origins=origins
 )
 
-tb = 'course2020-20212'
+tb = 'coursetmp'
 db = DBMongo(mongo_url(), 'courses', tb)
 
 
