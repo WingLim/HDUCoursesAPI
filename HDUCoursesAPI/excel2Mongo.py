@@ -21,24 +21,26 @@ weekday_dict = {
 courses = []
 need_merge = {}
 
-for one in sheet.iter_rows(min_row=2, max_row=5103, min_col=1, max_col=15):
+for one in sheet.iter_rows(min_row=2, max_row=5103, min_col=1, max_col=16):
     course = Course()
     teacher = one[6].value
     location = one[12].value
     other = one[14].value
+    credit = float(one[9].value)
     key = teacher + '-' + location + '-' + other
-    if ";" in location:
+    if ";" in location and credit >= 4.0:
         need_merge.setdefault(key, []).append(one)
         continue
     course.status = '已开'
     course.title = one[5].value
-    course.credit = one[9].value
+    course.credit = credit
     course.method = ''
     course.property = one[13].value
     course.teacher = teacher
-    course.class_id = ''
+    course.class_id = one[15].value
     time_info = one[3].value
     weekday = "周" + weekday_dict[one[2].value]
+    location = parse_location(location)
     course.time_info = parse_time(time_info, weekday, location)
     week_info = one[4].value
     course.week_info = parse_week(week_info)
@@ -57,11 +59,11 @@ for key, item in need_merge.items():
     location = one[12].value.split(';')
     course.status = '已开'
     course.title = one[5].value
-    course.credit = one[9].value
+    course.credit = float(one[9].value)
     course.method = ''
     course.property = one[13].value
     course.teacher = one[6].value
-    course.class_id = ''
+    course.class_id = one[15].value
     time_info = one[3].value + "," + two[3].value
     weekday_one = "周" + weekday_dict[one[2].value]
     weekday_two = "周" + weekday_dict[two[2].value]
